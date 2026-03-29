@@ -24,11 +24,13 @@ module "networking" {
 module "compute" {
   source = "./modules/compute"
 
-  project_name    = var.project_name
-  environment     = var.environment
-  vpc_id          = module.networking.vpc_id
-  public_subnets  = module.networking.public_subnet_ids
-  private_subnets = module.networking.private_subnet_ids
+  project_name          = var.project_name
+  environment           = var.environment
+  vpc_id                = module.networking.vpc_id
+  public_subnets        = module.networking.public_subnet_ids
+  private_subnets       = module.networking.private_subnet_ids
+  ec2_security_group_id = module.networking.ec2_security_group_id
+  alb_security_group_id = module.networking.alb_security_group_id
 }
 
 module "storage" {
