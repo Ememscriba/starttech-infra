@@ -52,4 +52,6 @@ module "monitoring" {
 
   project_name = var.project_name
   environment  = var.environment
+  asg_name     = module.compute.asg_name
+  alb_arn      = module.compute.alb_arn
 }
