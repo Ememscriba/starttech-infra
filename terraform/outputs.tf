@@ -12,8 +12,3 @@ output "s3_bucket_name" {
   description = "Name of the frontend S3 bucket"
   value       = module.storage.s3_bucket_name
 }
-
-output "cloudfront_domain" {
-  description = "CloudFront distribution domain"
-  value       = module.storage.cloudfront_domain
-}

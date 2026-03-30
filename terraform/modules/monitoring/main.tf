@@ -101,44 +101,60 @@ resource "aws_cloudwatch_metric_alarm" "alb_errors" {
   }
 }
 
-# CloudWatch Dashboard
-# This gives you a visual overview of your system health
 resource "aws_cloudwatch_dashboard" "main" {
   dashboard_name = "${var.project_name}-dashboard"
 
   dashboard_body = jsonencode({
     widgets = [
       {
-        type = "metric"
+        type   = "metric"
+        x      = 0
+        y      = 0
+        width  = 12
+        height = 6
         properties = {
-          title  = "CPU Utilization"
-          period = 300
-          stat   = "Average"
+          title   = "CPU Utilization"
+          region  = "us-east-1"
+          stat    = "Average"
+          period  = 300
           metrics = [
             ["AWS/EC2", "CPUUtilization", "AutoScalingGroupName", var.asg_name]
           ]
+          view    = "timeSeries"
         }
       },
       {
-        type = "metric"
+        type   = "metric"
+        x      = 12
+        y      = 0
+        width  = 12
+        height = 6
         properties = {
-          title  = "ALB Request Count"
-          period = 300
-          stat   = "Sum"
+          title   = "ALB Request Count"
+          region  = "us-east-1"
+          stat    = "Sum"
+          period  = 300
           metrics = [
             ["AWS/ApplicationELB", "RequestCount", "LoadBalancer", var.alb_arn]
           ]
+          view    = "timeSeries"
         }
       },
       {
-        type = "metric"
+        type   = "metric"
+        x      = 0
+        y      = 6
+        width  = 12
+        height = 6
         properties = {
-          title  = "ALB 5XX Errors"
-          period = 300
-          stat   = "Sum"
+          title   = "ALB 5XX Errors"
+          region  = "us-east-1"
+          stat    = "Sum"
+          period  = 300
           metrics = [
             ["AWS/ApplicationELB", "HTTPCode_Target_5XX_Count", "LoadBalancer", var.alb_arn]
           ]
+          view    = "timeSeries"
         }
       }
     ]

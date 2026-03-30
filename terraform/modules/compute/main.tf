@@ -137,9 +137,9 @@ resource "aws_lb_listener" "http" {
 # Automatically adds or removes servers based on traffic
 resource "aws_autoscaling_group" "app" {
   name                = "${var.project_name}-asg"
-  desired_capacity    = 2
+  desired_capacity    = 1
   min_size            = 1
-  max_size            = 4
+  max_size            = 2
   target_group_arns   = [aws_lb_target_group.app.arn]
   vpc_zone_identifier = var.private_subnets
 
