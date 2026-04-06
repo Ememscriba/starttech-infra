@@ -1,0 +1,35 @@
+# StartTech CloudWatch Log Insights Queries
+# Use these in AWS Console under CloudWatch > Logs > Insights
+
+# 1. Find all errors in the backend logs
+# Log group: /starttech/backend
+fields @timestamp, @message
+| filter @message like /ERROR/
+| sort @timestamp desc
+| limit 50
+
+# 2. Find slow requests taking more than 1 second
+# Log group: /starttech/backend
+fields @timestamp, @message, @duration
+| filter @duration > 1000
+| sort @duration desc
+| limit 20
+
+# 3. Count requests per minute
+# Log group: /starttech/alb
+fields @timestamp
+| stats count(*) as requestCount by bin(1m)
+| sort @timestamp desc
+
+# 4. Find all 5XX errors from the load balancer
+# Log group: /starttech/alb
+fields @timestamp, @message
+| filter @message like /5[0-9][0-9]/
+| sort @timestamp desc
+| limit 50
+
+# 5. Application startup and shutdown events
+# Log group: /starttech/backend
+fields @timestamp, @message
+| filter @message like /started/ or @message like /stopped/
+| sort @timestamp desc

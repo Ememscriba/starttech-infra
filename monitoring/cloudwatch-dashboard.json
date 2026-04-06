@@ -1,0 +1,72 @@
+{
+  "widgets": [
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 0,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "title": "CPU Utilization",
+        "region": "us-east-1",
+        "stat": "Average",
+        "period": 300,
+        "view": "timeSeries",
+        "metrics": [
+          ["AWS/EC2", "CPUUtilization", "AutoScalingGroupName", "starttech-asg"]
+        ]
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 0,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "title": "ALB Request Count",
+        "region": "us-east-1",
+        "stat": "Sum",
+        "period": 300,
+        "view": "timeSeries",
+        "metrics": [
+          ["AWS/ApplicationELB", "RequestCount", "LoadBalancer", "app/starttech-alb/9436e7f71daa61a7"]
+        ]
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 6,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "title": "ALB 5XX Errors",
+        "region": "us-east-1",
+        "stat": "Sum",
+        "period": 300,
+        "view": "timeSeries",
+        "metrics": [
+          ["AWS/ApplicationELB", "HTTPCode_Target_5XX_Count", "LoadBalancer", "app/starttech-alb/9436e7f71daa61a7"]
+        ]
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 6,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "title": "Redis CPU",
+        "region": "us-east-1",
+        "stat": "Average",
+        "period": 300,
+        "view": "timeSeries",
+        "metrics": [
+          ["AWS/ElastiCache", "CPUUtilization", "CacheClusterId", "starttech-redis"]
+        ]
+      }
+    }
+  ]
+}

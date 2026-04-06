@@ -1,0 +1,40 @@
+{
+  "alarms": [
+    {
+      "name": "starttech-high-cpu",
+      "description": "CPU usage above 80% for 2 consecutive periods",
+      "metric": "CPUUtilization",
+      "namespace": "AWS/EC2",
+      "threshold": 80,
+      "comparison": "GreaterThanThreshold",
+      "evaluation_periods": 2,
+      "period": 120,
+      "statistic": "Average",
+      "action": "Scale up EC2 instances"
+    },
+    {
+      "name": "starttech-low-cpu",
+      "description": "CPU usage below 20% for 2 consecutive periods",
+      "metric": "CPUUtilization",
+      "namespace": "AWS/EC2",
+      "threshold": 20,
+      "comparison": "LessThanThreshold",
+      "evaluation_periods": 2,
+      "period": 120,
+      "statistic": "Average",
+      "action": "Scale down EC2 instances"
+    },
+    {
+      "name": "starttech-alb-errors",
+      "description": "More than 10 5XX errors in 5 minutes",
+      "metric": "HTTPCode_Target_5XX_Count",
+      "namespace": "AWS/ApplicationELB",
+      "threshold": 10,
+      "comparison": "GreaterThanThreshold",
+      "evaluation_periods": 1,
+      "period": 300,
+      "statistic": "Sum",
+      "action": "Investigate backend errors immediately"
+    }
+  ]
+}
