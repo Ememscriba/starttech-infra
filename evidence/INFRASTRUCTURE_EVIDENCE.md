@@ -8,6 +8,7 @@ why it exists, and how it connects to the rest of the system.
 ---
 
 ## 1. VPC — Virtual Private Cloud
+<img width="1137" height="373" alt="Screenshot from 2026-04-09 18-17-48" src="https://github.com/user-attachments/assets/4b93136c-db3e-4f12-8a97-3da915aa2f66" />
 
 **What this is:**
 A VPC is a private, isolated network inside AWS. Think of it as building your
