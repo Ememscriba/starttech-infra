@@ -10,6 +10,7 @@ why it exists, and how it connects to the rest of the system.
 ## 1. VPC — Virtual Private Cloud
 <img width="1137" height="373" alt="Screenshot from 2026-04-09 18-17-48" src="https://github.com/user-attachments/assets/4b93136c-db3e-4f12-8a97-3da915aa2f66" />
 
+
 **What this is:**
 A VPC is a private, isolated network inside AWS. Think of it as building your
 own walled city on Amazon's land. Nothing gets in or out unless you explicitly
@@ -27,7 +28,7 @@ routing, and security.
 
 **What connects to it:**
 Every single resource in this project — subnets, EC2 instances, load balancer,
-Redis, security groups — all live inside this VPC.
+Redis, security groups, all live inside this VPC.
 
 ---
 
@@ -37,6 +38,8 @@ Redis, security groups — all live inside this VPC.
 Subnets divide the VPC into smaller network segments. This project uses four
 subnets split across two AWS availability zones (physical data centers in
 different buildings).
+
+<img width="1137" height="373" alt="Screenshot from 2026-04-09 18-20-39" src="https://github.com/user-attachments/assets/6dc0dff0-6fd4-4b80-ba34-6234aec5ae75" />
 
 **What the screenshot shows:**
 Four starttech subnets all in Available state:
@@ -75,6 +78,8 @@ The ALB is the front door of the application. It receives every HTTP request
 from the internet and distributes them across EC2 instances. It also performs
 health checks and stops sending traffic to any instance that stops responding.
 
+<img width="1125" height="241" alt="Screenshot from 2026-04-09 18-21-55" src="https://github.com/user-attachments/assets/af30e0f4-3c4b-460e-8ab4-cd850abfcc97" />
+
 **What the screenshot shows:**
 `starttech-alb` in Active state, type Application, scheme Internet-facing,
 connected to `vpc-01f23d7f9aa343634`.
@@ -99,6 +104,8 @@ from the ALB security group, so EC2 instances cannot be reached any other way.
 A target group is the list of servers the ALB sends traffic to. The ALB does
 not talk to EC2 instances directly — it talks to a target group, and the target
 group manages the list of healthy instances.
+
+<img width="1125" height="241" alt="Screenshot from 2026-04-09 18-22-31" src="https://github.com/user-attachments/assets/edb2c529-fff7-4c85-9060-5098f79deac4" />
 
 **What the screenshot shows:**
 `starttech-tg` on port 8080, protocol HTTP, target type Instance, attached to
@@ -127,6 +134,8 @@ The ASG manages your fleet of EC2 instances automatically. It launches new
 instances when demand increases and terminates them when demand drops. You
 define the minimum, desired, and maximum number of instances and set the
 conditions for scaling.
+
+<img width="1125" height="241" alt="Screenshot from 2026-04-09 18-23-04" src="https://github.com/user-attachments/assets/0b3d4cf0-337f-4e4c-a845-f19b9d6d8804" />
 
 **What the screenshot shows:**
 `starttech-asg` with 1 instance running, desired capacity 1, using launch
@@ -164,6 +173,8 @@ S3 is AWS object storage. It stores files. For this project, S3 serves two
 purposes: hosting the React frontend static files, and storing the Terraform
 state file.
 
+<img width="1043" height="271" alt="Screenshot from 2026-04-09 18-29-41" src="https://github.com/user-attachments/assets/06fc9657-670b-49d0-bb1d-92f34d6a2aaa" />
+
 **What the screenshot shows:**
 Three buckets:
 - `starttech-frontend-f466916d` — holds the built React application files
@@ -199,6 +210,8 @@ in-memory data store that the backend application uses for two purposes:
 caching frequently requested data so it does not have to hit MongoDB every time,
 and storing session data so users stay logged in.
 
+<img width="1043" height="271" alt="Screenshot from 2026-04-09 18-34-53" src="https://github.com/user-attachments/assets/d80911a9-61b0-49cf-957f-f105559f5c6d" />
+
 **What the screenshot shows:**
 `starttech-redis` in Available state, engine version 7.0.7, node type
 cache.t3.micro, running in the private subnet.
@@ -228,6 +241,8 @@ A CloudWatch dashboard gives you a visual overview of your system health in
 real time. Instead of checking multiple services separately, the dashboard
 shows all your key metrics in one place.
 
+<img width="1043" height="271" alt="Screenshot from 2026-04-09 18-37-52" src="https://github.com/user-attachments/assets/2437f45f-71c3-45ba-ad0f-13a07c0c9732" />
+
 **What the screenshot shows:**
 `starttech-dashboard` created on 2026-03-30.
 
@@ -254,6 +269,8 @@ standard metrics.
 **What this is:**
 Alarms watch specific metrics and trigger actions when those metrics cross
 defined thresholds. This project has three alarms.
+
+<img width="1044" height="300" alt="Screenshot from 2026-04-09 18-39-29" src="https://github.com/user-attachments/assets/0da17145-7627-4fb5-af34-f0e255287068" />
 
 **What the screenshot shows:**
 Three alarms:
@@ -292,11 +309,15 @@ Log groups collect and store application logs. Everything your application
 prints to standard output gets collected here. You can search, filter, and
 run analytics queries against your logs using CloudWatch Logs Insights.
 
+<img width="1086" height="375" alt="Screenshot from 2026-04-09 18-41-14" src="https://github.com/user-attachments/assets/e2f17ee9-e781-485a-a8a9-e6bf29cd6488" />
+
 **What the screenshots show:**
 Three starttech log groups all in Standard class:
 - `/starttech/alb` — load balancer access logs
 - `/starttech/backend` — Go application logs
 - `/starttech/frontend` — frontend access logs
+  
+<img width="1086" height="375" alt="Screenshot from 2026-04-09 18-42-09" src="https://github.com/user-attachments/assets/a1b39215-1b0e-48a4-9569-f60881a08176" />
 
 Each log group has a 30-day retention policy, meaning logs older than 30 days
 are automatically deleted to control storage costs.
@@ -359,6 +380,8 @@ Separate from these users, an IAM role called `starttech-ec2-role` is attached
 to every EC2 instance via an instance profile. This role grants the instance
 permission to write logs to CloudWatch. The instance never needs hardcoded
 credentials because it authenticates through the role automatically.
+
+<img width="1089" height="297" alt="Screenshot from 2026-04-09 18-46-51" src="https://github.com/user-attachments/assets/a21b56d0-4063-4ff7-92f8-53e5fe190efd" />
 
 ---
 
