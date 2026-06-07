@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 1.5.0"
 
   backend "s3" {
-    bucket = "starttech-terraform-state-954692413962"
+    bucket = "starttech-terraform-state-219078481589"
     key    = "production/terraform.tfstate"
     region = "us-east-1"
   }
@@ -24,16 +24,14 @@ provider "aws" {
 }
 
 module "networking" {
-  source = "./modules/networking"
-
+  source       = "./modules/networking"
   project_name = var.project_name
   environment  = var.environment
   vpc_cidr     = var.vpc_cidr
 }
 
 module "compute" {
-  source = "./modules/compute"
-
+  source                = "./modules/compute"
   project_name          = var.project_name
   environment           = var.environment
   vpc_id                = module.networking.vpc_id
@@ -44,8 +42,7 @@ module "compute" {
 }
 
 module "storage" {
-  source = "./modules/storage"
-
+  source                  = "./modules/storage"
   project_name            = var.project_name
   environment             = var.environment
   private_subnets         = module.networking.private_subnet_ids
@@ -53,8 +50,7 @@ module "storage" {
 }
 
 module "monitoring" {
-  source = "./modules/monitoring"
-
+  source       = "./modules/monitoring"
   project_name = var.project_name
   environment  = var.environment
   asg_name     = module.compute.asg_name
